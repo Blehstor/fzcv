@@ -153,7 +153,7 @@
       background: var(--surface);
       border: 1px solid var(--border);
       padding: 20px 24px;
-      text-align: right;
+      text-align: center;
       min-width: 200px;
       flex-shrink: 0;
       position: relative;
@@ -187,15 +187,15 @@
     }
 
     .clio-logo-wrap {
-      margin-top: 10px;
+      margin-top: 12px;
       display: flex;
-      justify-content: flex-end;
+      justify-content: center;
       align-items: center;
       gap: 8px;
     }
 
     .clio-logo-wrap img {
-      height: 28px;
+      height: 48px;
       width: auto;
       filter: brightness(1.1);
     }
@@ -452,7 +452,7 @@
     @media (max-width: 720px) {
       header { grid-template-columns: 1fr; }
       .status-box { text-align: left; }
-      .clio-logo-wrap { justify-content: flex-start; }
+      .clio-logo-wrap { justify-content: center; }
       .body-grid { grid-template-columns: 1fr; }
       h1 { font-size: 72px; }
     }
@@ -467,20 +467,20 @@
         <h1>Franco<span>Zinni</span></h1>
         <p class="subtitle">Senior IT Specialist · Barcelona, Spain</p>
         <div class="contact">
-          <a href="mailto:francoazinni@gmail.com">✉ francoazinni@gmail.com</a>
+          <a href="/cdn-cgi/l/email-protection#2b4d594a4548444a51424545426b4c464a424705484446">✉ <span class="__cf_email__" data-cfemail="3d5b4f5c535e525c47545353547d5a505c5451135e5250">[email&#160;protected]</span></a>
           <a href="https://linkedin.com/in/franco-zinni" target="_blank">linkedin.com/in/franco-zinni</a>
-          <span>📍 Barcelona, Spain 🇪🇸</span>
+          <span>📍 Barcelona, Spain</span>
         </div>
       </div>
 
       <div class="status-box">
-        <div>
+        <div style="text-align:center;">
           <span class="status-dot"></span>
-          <span class="status-label">Currently at</span>
+          <span class="status-label">Current company</span>
         </div>
         <div class="clio-logo-wrap">
           <img
-            src="clio-logo.jpg"
+            src="https://www.clio.com/wp-content/uploads/2023/09/Clio-Logo-White.svg"
             alt="Clio"
             onerror="this.style.display='none'; document.getElementById('clio-fallback').style.display='block';"
           />
@@ -675,13 +675,4 @@
             <span class="lang-level">High</span>
           </div>
           <div class="lang-item">
-            <span class="lang-name">French</span>
-            <span class="lang-level">Medium</span>
-          </div>
-        </section>
-
-      </aside>
-    </div>
-  </div>
-</body>
-</html>
+            <span class="lang-name">French</span
