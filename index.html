@@ -4,24 +4,29 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Franco Zinni — IT Operations & Support</title>
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%230057FF'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='Arial Black,sans-serif' font-weight='900' font-size='13' fill='white'%3EFZ%3C/text%3E%3C/svg%3E" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+
   <style>
     :root {
-      --bg: #0d0d0d;
-      --surface: #141414;
-      --surface2: #1c1c1c;
-      --border: #2a2a2a;
-      --accent: #c8f060;
-      --accent2: #60c8f0;
-      --text: #e8e8e8;
-      --muted: #888;
-      --dim: #555;
+      --bg: #05070f;
+      --surface: #0b0f1c;
+      --surface2: #111827;
+      --border: #1a2540;
+      --accent: #0057FF;
+      --accent-bright: #3b82f6;
+      --accent-glow: rgba(0, 87, 255, 0.15);
+      --accent2: #60a5fa;
+      --text: #e8edf5;
+      --muted: #6b7fa3;
+      --dim: #3d4f6e;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
 
     body {
@@ -33,7 +38,6 @@
       min-height: 100vh;
     }
 
-    /* ─── NOISE OVERLAY ─── */
     body::before {
       content: '';
       position: fixed;
@@ -44,7 +48,18 @@
       opacity: 0.4;
     }
 
-    /* ─── LAYOUT ─── */
+    body::after {
+      content: '';
+      position: fixed;
+      top: -200px;
+      left: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0,87,255,0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
     .wrapper {
       max-width: 960px;
       margin: 0 auto;
@@ -65,13 +80,11 @@
       animation: fadeUp 0.6s ease both;
     }
 
-    .header-left {}
-
     .tag {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 11px;
       letter-spacing: 0.15em;
-      color: var(--accent);
+      color: var(--accent-bright);
       text-transform: uppercase;
       margin-bottom: 16px;
       display: flex;
@@ -83,22 +96,22 @@
       display: inline-block;
       width: 20px;
       height: 1px;
-      background: var(--accent);
+      background: var(--accent-bright);
     }
 
     h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(52px, 8vw, 88px);
-      font-weight: 800;
-      line-height: 0.9;
-      letter-spacing: -0.03em;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(72px, 10vw, 110px);
+      font-weight: 400; /* Bebas Neue is single weight */
+      line-height: 0.88;
+      letter-spacing: 0.02em;
       color: var(--text);
       margin-bottom: 20px;
     }
 
     h1 span {
       display: block;
-      color: var(--accent);
+      color: var(--accent-bright);
     }
 
     .subtitle {
@@ -108,7 +121,6 @@
       letter-spacing: 0.05em;
     }
 
-    /* ─── CONTACT PILLS ─── */
     .contact {
       display: flex;
       flex-wrap: wrap;
@@ -131,11 +143,12 @@
     }
 
     .contact a:hover {
-      border-color: var(--accent);
-      color: var(--accent);
+      border-color: var(--accent-bright);
+      color: var(--accent-bright);
+      background: var(--accent-glow);
     }
 
-    /* ─── STATUS BADGE (header right) ─── */
+    /* ─── STATUS BOX ─── */
     .status-box {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -143,6 +156,16 @@
       text-align: right;
       min-width: 200px;
       flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .status-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
     }
 
     .status-dot {
@@ -150,7 +173,7 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: var(--accent);
+      background: var(--accent-bright);
       animation: pulse 2s infinite;
       margin-right: 6px;
     }
@@ -158,31 +181,45 @@
     .status-label {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 10px;
-      color: var(--accent);
+      color: var(--accent2);
       text-transform: uppercase;
       letter-spacing: 0.12em;
     }
 
-    .status-company {
+    .clio-logo-wrap {
+      margin-top: 10px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .clio-logo-wrap img {
+      height: 28px;
+      width: auto;
+      filter: brightness(1.1);
+    }
+
+    .clio-fallback {
       font-family: 'Syne', sans-serif;
-      font-size: 20px;
-      font-weight: 700;
+      font-size: 22px;
+      font-weight: 800;
       color: var(--text);
-      margin-top: 8px;
+      letter-spacing: -0.02em;
     }
 
     .status-role {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 11px;
       color: var(--muted);
-      margin-top: 4px;
+      margin-top: 6px;
     }
 
     .status-location {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 10px;
       color: var(--dim);
-      margin-top: 12px;
+      margin-top: 10px;
     }
 
     /* ─── BODY GRID ─── */
@@ -193,7 +230,6 @@
       align-items: start;
     }
 
-    /* ─── SECTIONS ─── */
     section {
       margin-bottom: 52px;
       animation: fadeUp 0.6s ease both;
@@ -222,7 +258,7 @@
       background: var(--border);
     }
 
-    /* ─── EXPERIENCE ITEMS ─── */
+    /* ─── EXPERIENCE ─── */
     .job {
       position: relative;
       padding-left: 24px;
@@ -239,9 +275,7 @@
       background: var(--border);
     }
 
-    .job:last-child::before {
-      display: none;
-    }
+    .job:last-child::before { display: none; }
 
     .job::after {
       content: '';
@@ -252,7 +286,7 @@
       height: 7px;
       border-radius: 50%;
       background: var(--accent);
-      box-shadow: 0 0 0 3px var(--bg);
+      box-shadow: 0 0 0 3px var(--bg), 0 0 8px var(--accent);
     }
 
     .job-header {
@@ -281,29 +315,21 @@
     .job-company {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 12px;
-      color: var(--accent);
+      color: var(--accent-bright);
       margin-bottom: 12px;
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
-    .job-company .loc {
-      color: var(--dim);
-    }
+    .job-company .loc { color: var(--dim); }
+    .job-company .sep { color: var(--border); }
 
-    .job-company .sep {
-      color: var(--border);
-    }
-
-    .job ul {
-      list-style: none;
-      padding: 0;
-    }
+    .job ul { list-style: none; padding: 0; }
 
     .job ul li {
       font-size: 13.5px;
-      color: #bbb;
+      color: #94a3c4;
       line-height: 1.6;
       padding: 4px 0 4px 16px;
       position: relative;
@@ -319,11 +345,10 @@
 
     .job ul li strong {
       color: var(--text);
-      font-style: normal;
       font-weight: 500;
+      font-style: normal;
     }
 
-    /* sub-role within a job */
     .sub-role {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 11px;
@@ -334,16 +359,9 @@
     }
 
     /* ─── SIDEBAR ─── */
-    .sidebar section {
-      margin-bottom: 44px;
-    }
+    .sidebar section { margin-bottom: 44px; }
 
-    /* ─── SKILL TAGS ─── */
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; }
 
     .tag-item {
       font-family: 'IBM Plex Mono', monospace;
@@ -356,16 +374,15 @@
     }
 
     .tag-item:hover {
-      border-color: var(--accent2);
-      color: var(--accent2);
+      border-color: var(--accent-bright);
+      color: var(--accent-bright);
+      background: var(--accent-glow);
     }
 
-    /* ─── CERT ITEMS ─── */
     .cert-item {
       padding: 12px 0;
       border-bottom: 1px solid var(--border);
     }
-
     .cert-item:last-child { border-bottom: none; }
 
     .cert-name {
@@ -383,7 +400,6 @@
       margin-top: 2px;
     }
 
-    /* ─── LANG ITEMS ─── */
     .lang-item {
       display: flex;
       justify-content: space-between;
@@ -391,7 +407,6 @@
       padding: 8px 0;
       border-bottom: 1px solid var(--border);
     }
-
     .lang-item:last-child { border-bottom: none; }
 
     .lang-name {
@@ -404,14 +419,10 @@
     .lang-level {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 10px;
-      color: var(--accent);
-      text-align: right;
+      color: var(--accent-bright);
     }
 
-    /* ─── EDU ITEMS ─── */
-    .edu-item {
-      margin-bottom: 18px;
-    }
+    .edu-item { margin-bottom: 18px; }
 
     .edu-degree {
       font-family: 'Syne', sans-serif;
@@ -428,30 +439,28 @@
       margin-top: 2px;
     }
 
-    /* ─── ANIMATIONS ─── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(16px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
     @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
+      0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--accent-bright); }
+      50% { opacity: 0.3; box-shadow: none; }
     }
 
-    /* ─── RESPONSIVE ─── */
     @media (max-width: 720px) {
       header { grid-template-columns: 1fr; }
       .status-box { text-align: left; }
+      .clio-logo-wrap { justify-content: flex-start; }
       .body-grid { grid-template-columns: 1fr; }
-      h1 { font-size: 52px; }
+      h1 { font-size: 72px; }
     }
   </style>
 </head>
 <body>
   <div class="wrapper">
 
-    <!-- ═══ HEADER ═══ -->
     <header>
       <div class="header-left">
         <div class="tag">IT Operations & Support</div>
@@ -459,32 +468,34 @@
         <p class="subtitle">Senior IT Specialist · Barcelona, Spain</p>
         <div class="contact">
           <a href="mailto:francoazinni@gmail.com">✉ francoazinni@gmail.com</a>
-          <a href="tel:+34640871156">✆ +34 640 871 156</a>
-          <a href="https://linkedin.com/in/franco-zinni" target="_blank">in linkedin.com/in/franco-zinni</a>
+          <a href="https://linkedin.com/in/franco-zinni" target="_blank">linkedin.com/in/franco-zinni</a>
           <span>📍 Barcelona, Spain</span>
         </div>
       </div>
+
       <div class="status-box">
         <div>
           <span class="status-dot"></span>
           <span class="status-label">Currently at</span>
         </div>
-        <div class="status-company">Clio</div>
+        <div class="clio-logo-wrap">
+          <img
+            src="https://www.clio.com/wp-content/uploads/2023/09/Clio-Logo-White.svg"
+            alt="Clio"
+            onerror="this.style.display='none'; document.getElementById('clio-fallback').style.display='block';"
+          />
+          <span id="clio-fallback" class="clio-fallback" style="display:none;">Clio</span>
+        </div>
         <div class="status-role">Senior IT Specialist</div>
         <div class="status-location">EMEA · Feb 2026 – Present</div>
       </div>
     </header>
 
-    <!-- ═══ BODY ═══ -->
     <div class="body-grid">
-
-      <!-- LEFT: Experience -->
       <main>
-
         <section>
           <div class="section-label">Experience</div>
 
-          <!-- Clio -->
           <div class="job">
             <div class="job-header">
               <span class="job-title">Senior IT Specialist</span>
@@ -499,7 +510,6 @@
             </ul>
           </div>
 
-          <!-- Printful -->
           <div class="job">
             <div class="job-header">
               <span class="job-title">IT Workplace Engineer</span>
@@ -516,7 +526,6 @@
             </ul>
           </div>
 
-          <!-- Thunes -->
           <div class="job">
             <div class="job-header">
               <span class="job-title">IT Support Engineer</span>
@@ -535,7 +544,6 @@
             </ul>
           </div>
 
-          <!-- Paack -->
           <div class="job">
             <div class="job-header">
               <span class="job-title">IT Support Specialist</span>
@@ -554,7 +562,6 @@
             </ul>
           </div>
 
-          <!-- Reprise -->
           <div class="job">
             <div class="job-header">
               <span class="job-title">IT Support Specialist</span>
@@ -570,21 +577,18 @@
             </ul>
           </div>
 
-          <!-- Emixer -->
           <div class="job">
             <div class="job-header">
               <span class="job-title">Lead Dispatcher & Field Technician</span>
               <span class="job-date">Apr 2013 – Sep 2019</span>
             </div>
             <div class="job-company">Emixer <span class="sep">·</span> <span class="loc">Rosario, Argentina</span></div>
-
             <div class="sub-role">Lead Dispatcher — 2013–2015</div>
             <ul>
               <li>Managed a team of 5 field technicians</li>
               <li>Control & procurement of spare parts, consumables, and tools</li>
               <li>Daily customer communication, remote support, quoting, and repair logistics</li>
             </ul>
-
             <div class="sub-role">Field Technician — 2015–2019</div>
             <ul>
               <li>Remote and on-site printer support across Argentina, complying with tight SLAs</li>
@@ -594,10 +598,8 @@
           </div>
 
         </section>
-
       </main>
 
-      <!-- RIGHT: Sidebar -->
       <aside class="sidebar">
 
         <section style="animation-delay:0.15s">
