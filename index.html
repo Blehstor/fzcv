@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Franco Zinni — IT Operations & Support</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --surface: #141414;
+      --surface2: #1c1c1c;
+      --border: #2a2a2a;
+      --accent: #c8f060;
+      --accent2: #60c8f0;
+      --text: #e8e8e8;
+      --muted: #888;
+      --dim: #555;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Lora', Georgia, serif;
+      font-size: 15px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ─── NOISE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ─── LAYOUT ─── */
+    .wrapper {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 60px 32px 100px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── HEADER ─── */
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+      align-items: start;
+      padding-bottom: 48px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 56px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .header-left {}
+
+    .tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tag::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(52px, 8vw, 88px);
+      font-weight: 800;
+      line-height: 0.9;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    h1 span {
+      display: block;
+      color: var(--accent);
+    }
+
+    .subtitle {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── CONTACT PILLS ─── */
+    .contact {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 28px;
+    }
+
+    .contact a, .contact span {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11.5px;
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 5px 12px;
+      border-radius: 2px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .contact a:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ─── STATUS BADGE (header right) ─── */
+    .status-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 20px 24px;
+      text-align: right;
+      min-width: 200px;
+      flex-shrink: 0;
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s infinite;
+      margin-right: 6px;
+    }
+
+    .status-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .status-company {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      margin-top: 8px;
+    }
+
+    .status-role {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .status-location {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      color: var(--dim);
+      margin-top: 12px;
+    }
+
+    /* ─── BODY GRID ─── */
+    .body-grid {
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 64px;
+      align-items: start;
+    }
+
+    /* ─── SECTIONS ─── */
+    section {
+      margin-bottom: 52px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    section:nth-child(1) { animation-delay: 0.1s; }
+    section:nth-child(2) { animation-delay: 0.2s; }
+    section:nth-child(3) { animation-delay: 0.3s; }
+
+    .section-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ─── EXPERIENCE ITEMS ─── */
+    .job {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 40px;
+    }
+
+    .job::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      bottom: -32px;
+      width: 1px;
+      background: var(--border);
+    }
+
+    .job:last-child::before {
+      display: none;
+    }
+
+    .job::after {
+      content: '';
+      position: absolute;
+      left: -3px;
+      top: 8px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 3px var(--bg);
+    }
+
+    .job-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 4px;
+    }
+
+    .job-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .job-date {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10.5px;
+      color: var(--dim);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .job-company {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: var(--accent);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .job-company .loc {
+      color: var(--dim);
+    }
+
+    .job-company .sep {
+      color: var(--border);
+    }
+
+    .job ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .job ul li {
+      font-size: 13.5px;
+      color: #bbb;
+      line-height: 1.6;
+      padding: 4px 0 4px 16px;
+      position: relative;
+    }
+
+    .job ul li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--dim);
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    .job ul li strong {
+      color: var(--text);
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    /* sub-role within a job */
+    .sub-role {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--accent2);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin: 14px 0 6px;
+    }
+
+    /* ─── SIDEBAR ─── */
+    .sidebar section {
+      margin-bottom: 44px;
+    }
+
+    /* ─── SKILL TAGS ─── */
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag-item {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+
+    .tag-item:hover {
+      border-color: var(--accent2);
+      color: var(--accent2);
+    }
+
+    /* ─── CERT ITEMS ─── */
+    .cert-item {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cert-item:last-child { border-bottom: none; }
+
+    .cert-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    .cert-exp {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      color: var(--dim);
+      margin-top: 2px;
+    }
+
+    /* ─── LANG ITEMS ─── */
+    .lang-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .lang-item:last-child { border-bottom: none; }
+
+    .lang-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .lang-level {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+      text-align: right;
+    }
+
+    /* ─── EDU ITEMS ─── */
+    .edu-item {
+      margin-bottom: 18px;
+    }
+
+    .edu-degree {
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    .edu-school {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10.5px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 720px) {
+      header { grid-template-columns: 1fr; }
+      .status-box { text-align: left; }
+      .body-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 52px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+
+    <!-- ═══ HEADER ═══ -->
+    <header>
+      <div class="header-left">
+        <div class="tag">IT Operations & Support</div>
+        <h1>Franco<span>Zinni</span></h1>
+        <p class="subtitle">Senior IT Specialist · Barcelona, Spain</p>
+        <div class="contact">
+          <a href="mailto:francoazinni@gmail.com">✉ francoazinni@gmail.com</a>
+          <a href="tel:+34640871156">✆ +34 640 871 156</a>
+          <a href="https://linkedin.com/in/franco-zinni" target="_blank">in linkedin.com/in/franco-zinni</a>
+          <span>📍 Barcelona, Spain</span>
+        </div>
+      </div>
+      <div class="status-box">
+        <div>
+          <span class="status-dot"></span>
+          <span class="status-label">Currently at</span>
+        </div>
+        <div class="status-company">Clio</div>
+        <div class="status-role">Senior IT Specialist</div>
+        <div class="status-location">EMEA · Feb 2026 – Present</div>
+      </div>
+    </header>
+
+    <!-- ═══ BODY ═══ -->
+    <div class="body-grid">
+
+      <!-- LEFT: Experience -->
+      <main>
+
+        <section>
+          <div class="section-label">Experience</div>
+
+          <!-- Clio -->
+          <div class="job">
+            <div class="job-header">
+              <span class="job-title">Senior IT Specialist</span>
+              <span class="job-date">Feb 2026 – Present</span>
+            </div>
+            <div class="job-company">Clio <span class="sep">·</span> <span class="loc">Barcelona, Spain (EMEA)</span></div>
+            <ul>
+              <li>Okta administration, including Terraform-managed group membership and automated user sync tooling</li>
+              <li>Cross-system integrations via <strong>Workato</strong> and <strong>Okta Workflows</strong> (Snipe-IT, Kolide, FreshService)</li>
+              <li>Google Workspace and Slack administration; FreshService ITSM management</li>
+              <li>Built internal automation tools for asset lookup, onboarding flows, and user lifecycle management</li>
+            </ul>
+          </div>
+
+          <!-- Printful -->
+          <div class="job">
+            <div class="job-header">
+              <span class="job-title">IT Workplace Engineer</span>
+              <span class="job-date">Jul 2024 – Jan 2026</span>
+            </div>
+            <div class="job-company">Printful <span class="sep">·</span> <span class="loc">Barcelona, Spain</span></div>
+            <ul>
+              <li><strong>Google Workspace Super-Admin</strong> — user lifecycle, OUs, context-aware access policies, audits & reports</li>
+              <li>Automated cross-platform workflows with <strong>Google Apps Script</strong> (Atlassian, Slack, and more)</li>
+              <li>Device deployment and management via <strong>JAMF & Intune</strong>; IT asset inventory</li>
+              <li><strong>Atlassian Org-Admin</strong> — JSM projects, workflows, SLAs, automations, Looker reports</li>
+              <li>Slack Workspace Owner; office network management via <strong>Fortinet</strong></li>
+              <li>HelpDesk support to 500+ users in multiple languages across global offices</li>
+            </ul>
+          </div>
+
+          <!-- Thunes -->
+          <div class="job">
+            <div class="job-header">
+              <span class="job-title">IT Support Engineer</span>
+              <span class="job-date">Jul 2023 – Jun 2024</span>
+            </div>
+            <div class="job-company">Thunes <span class="sep">·</span> <span class="loc">Barcelona, Spain</span></div>
+            <ul>
+              <li>IT Operations and Support across all company locations and offices</li>
+              <li><strong>IAM management</strong> as Google Workspace Super-Admin — OUs and context-aware policies</li>
+              <li>Led ITSM project and monitored ticket queues via <strong>Atlassian Jira</strong></li>
+              <li>HelpDesk support to 500+ users in multiple languages</li>
+              <li>Managed onboardings & offboardings globally, including user training</li>
+              <li>Deployed and supported MacOS and Windows laptops via <strong>JumpCloud</strong></li>
+              <li>IT procurement and asset management (<strong>Airtable</strong>); office network management (<strong>Fortinet</strong>)</li>
+              <li>Slack Workspace Owner — user & channel management, app integrations</li>
+            </ul>
+          </div>
+
+          <!-- Paack -->
+          <div class="job">
+            <div class="job-header">
+              <span class="job-title">IT Support Specialist</span>
+              <span class="job-date">Apr 2022 – May 2023</span>
+            </div>
+            <div class="job-company">Paack <span class="sep">·</span> <span class="loc">Barcelona, Spain</span></div>
+            <ul>
+              <li>Ticket queue monitoring with defined SLAs and priorities (<strong>Jira ITSM</strong>)</li>
+              <li>IAM management using <strong>Microsoft Azure AD & Google Workspace</strong></li>
+              <li>Onboardings & offboardings across Europe, including asset logistics</li>
+              <li>HelpDesk support to 400+ multilingual users</li>
+              <li>Laptop deployment via <strong>Microsoft Intune</strong> and <strong>JAMF</strong></li>
+              <li>Slack administrator; IT asset management and maintenance</li>
+              <li>Led <strong>Ricoh Printer Fleet project</strong> — robust secure printing across all warehouses</li>
+              <li>Internal documentation management & improvement (<strong>Confluence</strong>)</li>
+            </ul>
+          </div>
+
+          <!-- Reprise -->
+          <div class="job">
+            <div class="job-header">
+              <span class="job-title">IT Support Specialist</span>
+              <span class="job-date">Nov 2019 – Mar 2022</span>
+            </div>
+            <div class="job-company">Reprise <span class="sep">·</span> <span class="loc">Barcelona, Spain</span></div>
+            <ul>
+              <li>Managed and monitored a printer fleet of <strong>1,000+ devices</strong></li>
+              <li>Daily monitoring of consumable levels and device status; proactive actions to prevent downtime</li>
+              <li>Remote troubleshooting and on-site repairs using <strong>Xerox technical documentation</strong></li>
+              <li>Used Xerox tools and platforms requiring internal training and certification</li>
+              <li>Prevented escalations and saved costs through proactive remote support</li>
+            </ul>
+          </div>
+
+          <!-- Emixer -->
+          <div class="job">
+            <div class="job-header">
+              <span class="job-title">Lead Dispatcher & Field Technician</span>
+              <span class="job-date">Apr 2013 – Sep 2019</span>
+            </div>
+            <div class="job-company">Emixer <span class="sep">·</span> <span class="loc">Rosario, Argentina</span></div>
+
+            <div class="sub-role">Lead Dispatcher — 2013–2015</div>
+            <ul>
+              <li>Managed a team of 5 field technicians</li>
+              <li>Control & procurement of spare parts, consumables, and tools</li>
+              <li>Daily customer communication, remote support, quoting, and repair logistics</li>
+            </ul>
+
+            <div class="sub-role">Field Technician — 2015–2019</div>
+            <ul>
+              <li>Remote and on-site printer support across Argentina, complying with tight SLAs</li>
+              <li>Certified as <strong>Xerox Print Services Analyst</strong> in Chile (2017)</li>
+              <li>Pre and post-sales support in collaboration with Sales department</li>
+            </ul>
+          </div>
+
+        </section>
+
+      </main>
+
+      <!-- RIGHT: Sidebar -->
+      <aside class="sidebar">
+
+        <section style="animation-delay:0.15s">
+          <div class="section-label">Core Skills</div>
+          <div class="tags">
+            <span class="tag-item">Okta</span>
+            <span class="tag-item">Google Workspace</span>
+            <span class="tag-item">Workato</span>
+            <span class="tag-item">Okta Workflows</span>
+            <span class="tag-item">FreshService</span>
+            <span class="tag-item">Jira ITSM</span>
+            <span class="tag-item">JAMF</span>
+            <span class="tag-item">Intune</span>
+            <span class="tag-item">Azure AD</span>
+            <span class="tag-item">Slack Admin</span>
+            <span class="tag-item">Google Apps Script</span>
+            <span class="tag-item">Snipe-IT</span>
+            <span class="tag-item">Kolide</span>
+            <span class="tag-item">1Password</span>
+            <span class="tag-item">Confluence</span>
+            <span class="tag-item">Terraform</span>
+            <span class="tag-item">Fortinet</span>
+            <span class="tag-item">IAM</span>
+            <span class="tag-item">MDM</span>
+            <span class="tag-item">REST APIs</span>
+          </div>
+        </section>
+
+        <section style="animation-delay:0.25s">
+          <div class="section-label">Certifications</div>
+          <div class="cert-item">
+            <div class="cert-name">Professional Google Workspace Administrator</div>
+            <div class="cert-exp">Exp. Jun 2025</div>
+          </div>
+          <div class="cert-item">
+            <div class="cert-name">Atlassian Jira Service Management</div>
+            <div class="cert-exp">Exp. Aug 2026</div>
+          </div>
+          <div class="cert-item">
+            <div class="cert-name">ITIL v4 Foundations</div>
+            <div class="cert-exp">Exp. Aug 2026</div>
+          </div>
+          <div class="cert-item">
+            <div class="cert-name">Cisco CCNA</div>
+            <div class="cert-exp">Exp. Jan 2025</div>
+          </div>
+        </section>
+
+        <section style="animation-delay:0.3s">
+          <div class="section-label">Education</div>
+          <div class="edu-item">
+            <div class="edu-degree">Technician in Electronics</div>
+            <div class="edu-school">Instituto Don Bosco · 2015–2017</div>
+          </div>
+          <div class="edu-item">
+            <div class="edu-degree">Bachelor of Law</div>
+            <div class="edu-school">Universidad Abierta Interamericana · 2009–2012</div>
+          </div>
+        </section>
+
+        <section style="animation-delay:0.35s">
+          <div class="section-label">Languages</div>
+          <div class="lang-item">
+            <span class="lang-name">Spanish</span>
+            <span class="lang-level">Native</span>
+          </div>
+          <div class="lang-item">
+            <span class="lang-name">English</span>
+            <span class="lang-level">Professional</span>
+          </div>
+          <div class="lang-item">
+            <span class="lang-name">Italian</span>
+            <span class="lang-level">High</span>
+          </div>
+          <div class="lang-item">
+            <span class="lang-name">French</span>
+            <span class="lang-level">Medium</span>
+          </div>
+        </section>
+
+      </aside>
+    </div>
+  </div>
+</body>
+</html>
