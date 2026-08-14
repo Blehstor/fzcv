@@ -1,18 +1,16 @@
 <!DOCTYPE html>
-<!-- francozinni.cv — updated 2026-08-14 · Senior IT Systems Engineer · PDF download added -->
+<!-- francozinni.cv — updated 2026-08-14 · Senior IT Systems Engineer · durations + print-quality PDF -->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Franco Zinni — IT Systems & Operations</title>
+  <title>Franco Zinni · IT Systems & Operations</title>
 
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%230057FF'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='Arial Black,sans-serif' font-weight='900' font-size='13' fill='white'%3EFZ%3C/text%3E%3C/svg%3E" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
   <style>
     :root {
@@ -94,13 +92,6 @@
       align-items: center;
       gap: 8px;
     }
-    .tag::before {
-      content: '';
-      display: inline-block;
-      width: 20px;
-      height: 1px;
-      background: var(--accent-bright);
-    }
 
     h1 {
       font-family: 'Bebas Neue', sans-serif;
@@ -168,7 +159,6 @@
       letter-spacing: 0.02em;
     }
     .dl-btn:hover { background: var(--accent-bright); color: #fff; }
-    .dl-btn:disabled { opacity: 0.6; cursor: progress; }
 
     /* ─── STATUS BOX ─── */
     .status-box {
@@ -341,9 +331,11 @@
       font-family: 'IBM Plex Mono', monospace;
       font-size: 10.5px;
       color: var(--dim);
-      white-space: nowrap;
+      text-align: right;
       flex-shrink: 0;
     }
+
+    .job-dur { color: var(--muted); }
 
     .job-company {
       font-family: 'IBM Plex Mono', monospace;
@@ -357,6 +349,13 @@
 
     .job-company .loc { color: var(--dim); }
     .job-company .sep { color: var(--border); }
+    .job-company a.company-link {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .job-company a.company-link:hover { border-bottom-color: currentColor; }
 
     .job ul { list-style: none; padding: 0; }
 
@@ -482,44 +481,85 @@
       50% { opacity: 0.3; box-shadow: none; }
     }
 
-    /* ─── PDF EXPORT MODE (light theme, applied only during download) ─── */
-    body.pdf-export {
-      --bg: #ffffff;
-      --surface: #f4f6fb;
-      --surface2: #eef2f9;
-      --border: #d3dbe8;
-      --accent: #0057FF;
-      --accent-bright: #0057FF;
-      --accent-glow: rgba(0, 87, 255, 0.08);
-      --accent2: #2563eb;
-      --text: #0b1220;
-      --muted: #4a5875;
-      --dim: #7c8aa5;
-      background: #ffffff !important;
-      color: #0b1220 !important;
-    }
-    body.pdf-export::before,
-    body.pdf-export::after { display: none !important; }
-    body.pdf-export * { animation: none !important; }
-    body.pdf-export header,
-    body.pdf-export section { opacity: 1 !important; transform: none !important; }
-    body.pdf-export .wrapper { max-width: 900px !important; padding: 28px 30px 30px !important; }
-    body.pdf-export h1 { color: #0b1220 !important; }
-    body.pdf-export h1 span { color: #0057FF !important; }
-    body.pdf-export .profile-text,
-    body.pdf-export .job ul li { color: #33415c !important; }
-    body.pdf-export .dl-btn { display: none !important; }
-    body.pdf-export .job, body.pdf-export .cert-item,
-    body.pdf-export .lang-item, body.pdf-export .edu-item {
-      page-break-inside: avoid; break-inside: avoid;
-    }
-
     @media (max-width: 720px) {
       header { grid-template-columns: 1fr; }
       .status-box { text-align: left; }
       .clio-logo-wrap { justify-content: center; }
       .body-grid { grid-template-columns: 1fr; }
       h1 { font-size: 72px; }
+    }
+
+    /* ─── PRINT / SAVE-AS-PDF (clean light A4 resume) ─── */
+    @media print {
+      @page { size: A4; margin: 12mm; }
+      html { scroll-behavior: auto; }
+
+      body {
+        background: #ffffff !important;
+        color: #1a1f2b !important;
+        font-family: 'Lora', Georgia, serif;
+        font-size: 10.5pt;
+        line-height: 1.4;
+        min-height: 0;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      body::before, body::after { display: none !important; }
+
+      .dl-btn, .status-box { display: none !important; }
+
+      .wrapper { max-width: none; margin: 0; padding: 0; }
+
+      header {
+        display: block;
+        padding-bottom: 12px;
+        margin-bottom: 18px;
+        border-bottom: 1px solid #cdd6e6;
+        animation: none;
+      }
+      .tag { color: #0057FF; font-size: 8pt; margin-bottom: 6px; }
+      h1 { color: #141a26; font-size: 33pt; line-height: 0.95; margin-bottom: 6px; }
+      h1 span { display: inline; color: #0057FF; }
+      h1 span::before { content: '\00a0'; }
+      .subtitle { color: #3a4457; font-size: 9.5pt; }
+      .contact { margin-top: 10px; gap: 16px; }
+      .contact a, .contact span { border: none; padding: 0; color: #3a4457; font-size: 8.5pt; }
+
+      .body-grid { display: block; }
+
+      section { margin-bottom: 15px; animation: none; opacity: 1; transform: none; }
+      .section-label { color: #0057FF; font-size: 8pt; margin-bottom: 10px; break-after: avoid; page-break-after: avoid; }
+      .section-label::after { background: #cdd6e6; }
+
+      .profile-text { color: #2b3346; font-size: 10pt; line-height: 1.5; }
+      .profile-text strong { color: #141a26; font-weight: 600; }
+
+      .job { padding-left: 0; margin-bottom: 13px; break-inside: avoid; page-break-inside: avoid; }
+      .job::before, .job::after { display: none !important; }
+      .job-header { margin-bottom: 2px; }
+      .job-title { color: #141a26; font-size: 11.5pt; }
+      .job-date { color: #5a6478; font-size: 8pt; }
+      .job-dur { color: #0057FF; }
+      .job-company { color: #0057FF; font-size: 9pt; margin-bottom: 6px; }
+      .job-company .loc { color: #6b7488; }
+      .job-company .sep { color: #b7c0d0; }
+      .job-company a.company-link { color: #0057FF; text-decoration: underline; text-decoration-color: #9db4e8; }
+      .job ul li { color: #2b3346; font-size: 9.5pt; line-height: 1.35; padding: 2px 0 2px 14px; break-inside: avoid; }
+      .job ul li::before { content: '–'; color: #0057FF; }
+      .job ul li strong { color: #141a26; font-weight: 600; }
+      .sub-role { color: #0057FF; font-size: 8.5pt; margin: 8px 0 4px; }
+
+      .sidebar section { margin-bottom: 13px; break-inside: avoid; page-break-inside: avoid; }
+      .tags { gap: 5px; }
+      .tag-item { color: #2b3346; border-color: #cdd6e6; font-size: 8.5pt; padding: 2px 8px; }
+      .cert-item { padding: 6px 0; border-color: #e3e8f1; }
+      .cert-name { color: #141a26; font-size: 10pt; }
+      .cert-exp { color: #6b7488; }
+      .lang-item { padding: 4px 0; border-color: #e3e8f1; }
+      .lang-name { color: #141a26; font-size: 10pt; }
+      .lang-level { color: #0057FF; }
+      .edu-degree { color: #141a26; font-size: 10pt; }
+      .edu-school { color: #5a6478; }
     }
   </style>
 </head>
@@ -528,11 +568,10 @@
 
     <header>
       <div class="header-left">
-        <div class="tag">IT Systems Engineering & Operations</div>
         <h1>Franco<span>Zinni</span></h1>
-        <p class="subtitle">Senior IT Specialist · Barcelona, Spain</p>
+        <div class="tag">IT Systems & Operations</div>
         <div class="contact">
-          <button type="button" id="dlbtn" class="dl-btn" onclick="downloadCV()">⬇ <span class="dl-label">Download CV</span></button>
+          <button type="button" id="dlbtn" class="dl-btn" onclick="printCV()">⬇ <span class="dl-label">Download CV</span></button>
           <a href="https://linkedin.com/in/franco-zinni" target="_blank">linkedin.com/in/franco-zinni</a>
           <span>📍 Barcelona, Spain</span>
         </div>
@@ -572,9 +611,9 @@
           <div class="job">
             <div class="job-header">
               <span class="job-title">Senior IT Specialist</span>
-              <span class="job-date">Feb 2026 – Present</span>
+              <span class="job-date">Feb 2026 – Present <span class="job-dur">(6 mos)</span></span>
             </div>
-            <div class="job-company">Clio <span class="sep">·</span> <span class="loc">Barcelona, Spain</span></div>
+            <div class="job-company"><a class="company-link" href="https://www.clio.com" target="_blank" rel="noopener">Clio</a> <span class="sep">·</span> <span class="loc">Barcelona, Spain</span></div>
             <ul>
               <li><strong>Identity & Access Management</strong> across Okta (users, groups, group rules, Terraform-managed membership) and <strong>Microsoft Entra ID</strong>, with PIM-based just-in-time, least-privilege elevation</li>
               <li><strong>macOS endpoint management</strong> at fleet scale via <strong>Kandji</strong> MDM (deployment, compliance, patch and lifecycle management); device trust and Zero Trust posture enforced through <strong>Kolide</strong></li>
@@ -588,14 +627,14 @@
           <div class="job">
             <div class="job-header">
               <span class="job-title">IT Workplace Engineer</span>
-              <span class="job-date">Jul 2024 – Jan 2026</span>
+              <span class="job-date">Jul 2024 – Jan 2026 <span class="job-dur">(1 yr 6 mos)</span></span>
             </div>
-            <div class="job-company">Printful <span class="sep">·</span> <span class="loc">Barcelona, Spain</span></div>
+            <div class="job-company"><a class="company-link" href="https://www.fyul.com" target="_blank" rel="noopener">FYUL</a> <span class="sep">·</span> <span class="loc">Barcelona, Spain</span></div>
             <ul>
-              <li><strong>Google Workspace Super-Admin</strong> — user lifecycle, OUs, context-aware access policies, audits & reports</li>
+              <li><strong>Google Workspace Super-Admin</strong> · user lifecycle, OUs, context-aware access policies, audits & reports</li>
               <li>Automated cross-platform workflows and IT automation with <strong>Google Apps Script</strong> (Atlassian, Slack, and more)</li>
               <li><strong>macOS and Windows endpoint management</strong> via <strong>JAMF & Intune</strong>; device deployment and IT asset inventory</li>
-              <li><strong>Atlassian Org-Admin</strong> — JSM projects, workflows, SLAs, automations, Looker reports</li>
+              <li><strong>Atlassian Org-Admin</strong> · JSM projects, workflows, SLAs, automations, Looker reports</li>
               <li>Slack Workspace Owner; office network management via <strong>Fortinet</strong></li>
               <li>HelpDesk support to 500+ users in multiple languages across global offices</li>
             </ul>
@@ -604,27 +643,27 @@
           <div class="job">
             <div class="job-header">
               <span class="job-title">IT Support Engineer</span>
-              <span class="job-date">Jul 2023 – Jun 2024</span>
+              <span class="job-date">Jul 2023 – Jun 2024 <span class="job-dur">(1 yr)</span></span>
             </div>
-            <div class="job-company">Thunes <span class="sep">·</span> <span class="loc">Barcelona, Spain</span></div>
+            <div class="job-company"><a class="company-link" href="https://www.thunes.com" target="_blank" rel="noopener">Thunes</a> <span class="sep">·</span> <span class="loc">Barcelona, Spain</span></div>
             <ul>
               <li>IT Operations and Support across all company locations and offices</li>
-              <li><strong>IAM management</strong> as Google Workspace Super-Admin — OUs and context-aware policies</li>
+              <li><strong>IAM management</strong> as Google Workspace Super-Admin · OUs and context-aware policies</li>
               <li>Led ITSM project and monitored ticket queues via <strong>Atlassian Jira</strong></li>
               <li>HelpDesk support to 500+ users in multiple languages</li>
               <li>Managed onboardings & offboardings globally, including user training</li>
               <li>Deployed and supported macOS and Windows laptops via <strong>JumpCloud</strong></li>
               <li>IT procurement and asset management (<strong>Airtable</strong>); office network management (<strong>Fortinet</strong>)</li>
-              <li>Slack Workspace Owner — user & channel management, app integrations</li>
+              <li>Slack Workspace Owner · user & channel management, app integrations</li>
             </ul>
           </div>
 
           <div class="job">
             <div class="job-header">
               <span class="job-title">IT Support Specialist</span>
-              <span class="job-date">Apr 2022 – May 2023</span>
+              <span class="job-date">Apr 2022 – May 2023 <span class="job-dur">(1 yr 1 mo)</span></span>
             </div>
-            <div class="job-company">Paack <span class="sep">·</span> <span class="loc">Barcelona, Spain</span></div>
+            <div class="job-company"><a class="company-link" href="https://paack.co" target="_blank" rel="noopener">Paack</a> <span class="sep">·</span> <span class="loc">Barcelona, Spain</span></div>
             <ul>
               <li>Ticket queue monitoring with defined SLAs and priorities (<strong>Jira ITSM</strong>)</li>
               <li><strong>IAM management</strong> using <strong>Microsoft Entra ID (Azure AD)</strong> & Google Workspace</li>
@@ -632,7 +671,7 @@
               <li>HelpDesk support to 400+ multilingual users</li>
               <li><strong>macOS and Windows</strong> laptop deployment via <strong>Microsoft Intune</strong> and <strong>JAMF</strong></li>
               <li>Slack administrator; IT asset management and maintenance</li>
-              <li>Led <strong>Ricoh Printer Fleet project</strong> — robust secure printing across all warehouses</li>
+              <li>Led <strong>Ricoh Printer Fleet project</strong> · robust secure printing across all warehouses</li>
               <li>Internal documentation management & improvement (<strong>Confluence</strong>)</li>
             </ul>
           </div>
@@ -640,9 +679,9 @@
           <div class="job">
             <div class="job-header">
               <span class="job-title">IT Support Specialist</span>
-              <span class="job-date">Nov 2019 – Mar 2022</span>
+              <span class="job-date">Nov 2019 – Mar 2022 <span class="job-dur">(2 yrs 4 mos)</span></span>
             </div>
-            <div class="job-company">Reprise <span class="sep">·</span> <span class="loc">Barcelona, Spain</span></div>
+            <div class="job-company"><a class="company-link" href="#" target="_blank" rel="noopener">Reprise</a> <span class="sep">·</span> <span class="loc">Barcelona, Spain</span></div>
             <ul>
               <li>Managed and monitored a printer fleet of <strong>1,000+ devices</strong></li>
               <li>Daily monitoring of consumable levels and device status; proactive actions to prevent downtime</li>
@@ -655,16 +694,16 @@
           <div class="job">
             <div class="job-header">
               <span class="job-title">Lead Dispatcher & Field Technician</span>
-              <span class="job-date">Apr 2013 – Sep 2019</span>
+              <span class="job-date">Apr 2013 – Sep 2019 <span class="job-dur">(6 yrs 5 mos)</span></span>
             </div>
-            <div class="job-company">Emixer <span class="sep">·</span> <span class="loc">Rosario, Argentina</span></div>
-            <div class="sub-role">Lead Dispatcher — 2013–2015</div>
+            <div class="job-company"><a class="company-link" href="#" target="_blank" rel="noopener">Emixer</a> <span class="sep">·</span> <span class="loc">Rosario, Argentina</span></div>
+            <div class="sub-role">Lead Dispatcher · 2013–2015</div>
             <ul>
               <li>Managed a team of 5 field technicians</li>
               <li>Control & procurement of spare parts, consumables, and tools</li>
               <li>Daily customer communication, remote support, quoting, and repair logistics</li>
             </ul>
-            <div class="sub-role">Field Technician — 2015–2019</div>
+            <div class="sub-role">Field Technician · 2015–2019</div>
             <ul>
               <li>Remote and on-site printer support across Argentina, complying with tight SLAs</li>
               <li>Certified as <strong>Xerox Print Services Analyst</strong> in Chile (2017)</li>
@@ -768,40 +807,15 @@
   </div>
 
   <script>
-    function downloadCV() {
-      var btn = document.getElementById('dlbtn');
-      var label = btn.querySelector('.dl-label');
-      var target = document.querySelector('.wrapper');
-      var prev = label.textContent;
-
-      if (typeof html2pdf === 'undefined') {
-        window.print();
-        return;
-      }
-
-      document.body.classList.add('pdf-export');
-      btn.disabled = true;
-      label.textContent = 'Generating...';
-
-      var opt = {
-        margin: [8, 8, 8, 8],
-        filename: 'Franco_Zinni_CV.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, backgroundColor: '#ffffff', useCORS: true },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-        pagebreak: { mode: ['css', 'legacy'] }
-      };
-
+    function printCV() {
+      var original = document.title;
+      document.title = 'Franco Zinni - CV';
       function restore() {
-        document.body.classList.remove('pdf-export');
-        btn.disabled = false;
-        label.textContent = prev;
+        document.title = original;
+        window.removeEventListener('afterprint', restore);
       }
-
-      html2pdf().set(opt).from(target).save().then(restore).catch(function () {
-        restore();
-        window.print();
-      });
+      window.addEventListener('afterprint', restore);
+      window.print();
     }
   </script>
 </body>
