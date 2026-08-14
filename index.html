@@ -157,6 +157,7 @@
       gap: 6px;
       transition: all 0.2s;
       letter-spacing: 0.02em;
+      text-decoration: none;
     }
     .dl-btn:hover { background: var(--accent-bright); color: #fff; }
 
@@ -571,7 +572,7 @@
         <h1>Franco<span>Zinni</span></h1>
         <div class="tag">IT Systems & Operations</div>
         <div class="contact">
-          <button type="button" id="dlbtn" class="dl-btn" onclick="printCV()">⬇ <span class="dl-label">Download CV</span></button>
+          <a id="dlbtn" class="dl-btn" href="https://drive.google.com/uc?export=download&amp;id=1FzwiXfKSIk2u1sbLx2jrMAftPbG3eP4g" target="_blank" rel="noopener">⬇ <span class="dl-label">Download CV</span></a>
           <a href="https://linkedin.com/in/franco-zinni" target="_blank">linkedin.com/in/franco-zinni</a>
           <span>📍 Barcelona, Spain</span>
         </div>
@@ -681,7 +682,7 @@
               <span class="job-title">IT Support Specialist</span>
               <span class="job-date">Nov 2019 – Mar 2022 <span class="job-dur">(2 yrs 4 mos)</span></span>
             </div>
-            <div class="job-company"><a class="company-link" href="#" target="_blank" rel="noopener">Reprise</a> <span class="sep">·</span> <span class="loc">Barcelona, Spain</span></div>
+            <div class="job-company"><a class="company-link" href="https://reprise.es/" target="_blank" rel="noopener">Reprise</a> <span class="sep">·</span> <span class="loc">Barcelona, Spain</span></div>
             <ul>
               <li>Managed and monitored a printer fleet of <strong>1,000+ devices</strong></li>
               <li>Daily monitoring of consumable levels and device status; proactive actions to prevent downtime</li>
@@ -696,7 +697,7 @@
               <span class="job-title">Lead Dispatcher & Field Technician</span>
               <span class="job-date">Apr 2013 – Sep 2019 <span class="job-dur">(6 yrs 5 mos)</span></span>
             </div>
-            <div class="job-company"><a class="company-link" href="#" target="_blank" rel="noopener">Emixer</a> <span class="sep">·</span> <span class="loc">Rosario, Argentina</span></div>
+            <div class="job-company"><a class="company-link" href="https://emixer.com.ar/" target="_blank" rel="noopener">Emixer</a> <span class="sep">·</span> <span class="loc">Rosario, Argentina</span></div>
             <div class="sub-role">Lead Dispatcher · 2013–2015</div>
             <ul>
               <li>Managed a team of 5 field technicians</li>
@@ -806,17 +807,5 @@
 
   </div>
 
-  <script>
-    function printCV() {
-      var original = document.title;
-      document.title = 'Franco Zinni - CV';
-      function restore() {
-        document.title = original;
-        window.removeEventListener('afterprint', restore);
-      }
-      window.addEventListener('afterprint', restore);
-      window.print();
-    }
-  </script>
 </body>
 </html>
