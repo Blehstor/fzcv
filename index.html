@@ -207,6 +207,16 @@
       gap: 8px;
     }
 
+    .clio-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: inherit;
+      transition: opacity 0.2s;
+    }
+    .clio-link:hover { opacity: 0.8; }
+
     .clio-logo-wrap img {
       height: 48px;
       width: auto;
@@ -572,9 +582,9 @@
         <h1>Franco<span>Zinni</span></h1>
         <div class="tag">IT Systems & Operations</div>
         <div class="contact">
-          <a id="dlbtn" class="dl-btn" href="https://drive.google.com/uc?export=download&amp;id=1FzwiXfKSIk2u1sbLx2jrMAftPbG3eP4g" target="_blank" rel="noopener">⬇ <span class="dl-label">Download CV</span></a>
+          <a id="dlbtn" class="dl-btn" href="https://drive.google.com/uc?export=download&amp;id=YOUR_FILE_ID" target="_blank" rel="noopener">⬇ <span class="dl-label">Download CV</span></a>
           <a href="https://linkedin.com/in/franco-zinni" target="_blank">linkedin.com/in/franco-zinni</a>
-          <span>📍 Barcelona, Spain</span>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Barcelona%2C%20Spain" target="_blank" rel="noopener">📍 Barcelona, Spain</a>
         </div>
       </div>
 
@@ -584,12 +594,14 @@
           <span class="status-label">Current company</span>
         </div>
         <div class="clio-logo-wrap">
-          <img
-            src="clio-logo.jpg"
-            alt="Clio"
-            onerror="this.style.display='none'; document.getElementById('clio-fallback').style.display='block';"
-          />
-          <span id="clio-fallback" class="clio-fallback" style="display:none;">Clio</span>
+          <a href="https://www.clio.com" target="_blank" rel="noopener" class="clio-link">
+            <img
+              src="clio-logo.jpg"
+              alt="Clio"
+              onerror="this.style.display='none'; document.getElementById('clio-fallback').style.display='block';"
+            />
+            <span id="clio-fallback" class="clio-fallback" style="display:none;">Clio</span>
+          </a>
         </div>
         <div class="status-role">Senior IT Specialist</div>
         <div class="status-location">Feb 2026 – Present</div>
@@ -614,7 +626,7 @@
               <span class="job-title">Senior IT Specialist</span>
               <span class="job-date">Feb 2026 – Present <span class="job-dur">(6 mos)</span></span>
             </div>
-            <div class="job-company"><a class="company-link" href="https://www.clio.com" target="_blank" rel="noopener">Clio</a> <span class="sep">·</span> <span class="loc">Barcelona, Spain</span></div>
+            <div class="job-company"><a class="company-link" href="https://www.clio.com" target="_blank" rel="noopener">Clio</a> <span class="sep">·</span> <span class="loc">Barcelona, Spain (EMEA)</span></div>
             <ul>
               <li><strong>Identity & Access Management</strong> across Okta (users, groups, group rules, Terraform-managed membership) and <strong>Microsoft Entra ID</strong>, with PIM-based just-in-time, least-privilege elevation</li>
               <li><strong>macOS endpoint management</strong> at fleet scale via <strong>Kandji</strong> MDM (deployment, compliance, patch and lifecycle management); device trust and Zero Trust posture enforced through <strong>Kolide</strong></li>
