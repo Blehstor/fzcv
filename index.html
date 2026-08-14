@@ -1,15 +1,18 @@
 <!DOCTYPE html>
+<!-- francozinni.cv — updated 2026-08-14 · Senior IT Systems Engineer · PDF download added -->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Franco Zinni — IT Systems Management & Operations</title>
+  <title>Franco Zinni — IT Systems & Operations</title>
 
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%230057FF'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='Arial Black,sans-serif' font-weight='900' font-size='13' fill='white'%3EFZ%3C/text%3E%3C/svg%3E" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
   <style>
     :root {
@@ -148,6 +151,25 @@
       background: var(--accent-glow);
     }
 
+    /* ─── DOWNLOAD BUTTON ─── */
+    .dl-btn {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11.5px;
+      color: var(--accent-bright);
+      background: var(--accent-glow);
+      border: 1px solid var(--accent-bright);
+      padding: 5px 14px;
+      border-radius: 2px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+      letter-spacing: 0.02em;
+    }
+    .dl-btn:hover { background: var(--accent-bright); color: #fff; }
+    .dl-btn:disabled { opacity: 0.6; cursor: progress; }
+
     /* ─── STATUS BOX ─── */
     .status-box {
       background: var(--surface);
@@ -258,6 +280,17 @@
       background: var(--border);
     }
 
+    /* ─── PROFILE ─── */
+    .profile-text {
+      font-size: 14px;
+      color: #94a3c4;
+      line-height: 1.75;
+    }
+    .profile-text strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
     /* ─── EXPERIENCE ─── */
     .job {
       position: relative;
@@ -336,7 +369,7 @@
     }
 
     .job ul li::before {
-      content: '—';
+      content: '–';
       position: absolute;
       left: 0;
       color: var(--dim);
@@ -449,6 +482,38 @@
       50% { opacity: 0.3; box-shadow: none; }
     }
 
+    /* ─── PDF EXPORT MODE (light theme, applied only during download) ─── */
+    body.pdf-export {
+      --bg: #ffffff;
+      --surface: #f4f6fb;
+      --surface2: #eef2f9;
+      --border: #d3dbe8;
+      --accent: #0057FF;
+      --accent-bright: #0057FF;
+      --accent-glow: rgba(0, 87, 255, 0.08);
+      --accent2: #2563eb;
+      --text: #0b1220;
+      --muted: #4a5875;
+      --dim: #7c8aa5;
+      background: #ffffff !important;
+      color: #0b1220 !important;
+    }
+    body.pdf-export::before,
+    body.pdf-export::after { display: none !important; }
+    body.pdf-export * { animation: none !important; }
+    body.pdf-export header,
+    body.pdf-export section { opacity: 1 !important; transform: none !important; }
+    body.pdf-export .wrapper { max-width: 900px !important; padding: 28px 30px 30px !important; }
+    body.pdf-export h1 { color: #0b1220 !important; }
+    body.pdf-export h1 span { color: #0057FF !important; }
+    body.pdf-export .profile-text,
+    body.pdf-export .job ul li { color: #33415c !important; }
+    body.pdf-export .dl-btn { display: none !important; }
+    body.pdf-export .job, body.pdf-export .cert-item,
+    body.pdf-export .lang-item, body.pdf-export .edu-item {
+      page-break-inside: avoid; break-inside: avoid;
+    }
+
     @media (max-width: 720px) {
       header { grid-template-columns: 1fr; }
       .status-box { text-align: left; }
@@ -463,11 +528,11 @@
 
     <header>
       <div class="header-left">
-        <div class="tag">IT Operations & Support</div>
+        <div class="tag">IT Systems Engineering & Operations</div>
         <h1>Franco<span>Zinni</span></h1>
         <p class="subtitle">Senior IT Specialist · Barcelona, Spain</p>
         <div class="contact">
-          <a href="/cdn-cgi/l/email-protection#2b4d594a4548444a51424545426b4c464a424705484446">✉ <span class="__cf_email__" data-cfemail="3d5b4f5c535e525c47545353547d5a505c5451135e5250">[email&#160;protected]</span></a>
+          <button type="button" id="dlbtn" class="dl-btn" onclick="downloadCV()">⬇ <span class="dl-label">Download CV</span></button>
           <a href="https://linkedin.com/in/franco-zinni" target="_blank">linkedin.com/in/franco-zinni</a>
           <span>📍 Barcelona, Spain</span>
         </div>
@@ -493,6 +558,14 @@
 
     <div class="body-grid">
       <main>
+
+        <section>
+          <div class="section-label">Profile</div>
+          <p class="profile-text">
+            Senior IT professional with 7+ years across systems engineering, identity, and endpoint operations in fast-paced, macOS-heavy environments. Deep hands-on work with <strong>Okta</strong> and <strong>Microsoft Entra ID</strong>, <strong>JAMF</strong> and <strong>Kandji</strong> MDM, SSO and SCIM provisioning, and Zero Trust device trust. I build scalable automation on Workato, Okta Workflows, and Python, and lead complex troubleshooting and audits from root cause through remediation. Fluent in Spanish and English.
+          </p>
+        </section>
+
         <section>
           <div class="section-label">Experience</div>
 
@@ -501,12 +574,14 @@
               <span class="job-title">Senior IT Specialist</span>
               <span class="job-date">Feb 2026 – Present</span>
             </div>
-            <div class="job-company">Clio <span class="sep">·</span> <span class="loc">Barcelona, Spain (EMEA)</span></div>
+            <div class="job-company">Clio <span class="sep">·</span> <span class="loc">Barcelona, Spain</span></div>
             <ul>
-              <li>Okta administration, including Terraform-managed group membership and automated user sync tooling</li>
-              <li>Cross-system integrations via <strong>Workato</strong> and <strong>Okta Workflows</strong> (Snipe-IT, Kolide, FreshService)</li>
-              <li>Google Workspace and Slack administration; FreshService ITSM management</li>
-              <li>Built internal automation tools for asset lookup, onboarding flows, and user lifecycle management</li>
+              <li><strong>Identity & Access Management</strong> across Okta (users, groups, group rules, Terraform-managed membership) and <strong>Microsoft Entra ID</strong>, with PIM-based just-in-time, least-privilege elevation</li>
+              <li><strong>macOS endpoint management</strong> at fleet scale via <strong>Kandji</strong> MDM (deployment, compliance, patch and lifecycle management); device trust and Zero Trust posture enforced through <strong>Kolide</strong></li>
+              <li><strong>SSO and SCIM provisioning</strong>, identity lifecycle, and SaaS access governance across 30+ applications; asset lifecycle managed in Snipe-IT</li>
+              <li>Scalable automation on <strong>Workato</strong> and <strong>Okta Workflows</strong>, plus a Python tooling and MCP stack and internal webapps for onboarding, asset reconciliation, and ticket-queue management</li>
+              <li><strong>FreshService</strong> ITSM administration and Google Workspace admin; drove 500+ configuration and process improvements with documentation and workflow redesign</li>
+              <li>Root-cause investigations and audits: Okta offboarding forensics via syslog analysis, SCIM bridge remediation, and full device reconciliation across Snipe-IT, Kolide, and inventory</li>
             </ul>
           </div>
 
@@ -518,8 +593,8 @@
             <div class="job-company">Printful <span class="sep">·</span> <span class="loc">Barcelona, Spain</span></div>
             <ul>
               <li><strong>Google Workspace Super-Admin</strong> — user lifecycle, OUs, context-aware access policies, audits & reports</li>
-              <li>Automated cross-platform workflows with <strong>Google Apps Script</strong> (Atlassian, Slack, and more)</li>
-              <li>Device deployment and management via <strong>JAMF & Intune</strong>; IT asset inventory</li>
+              <li>Automated cross-platform workflows and IT automation with <strong>Google Apps Script</strong> (Atlassian, Slack, and more)</li>
+              <li><strong>macOS and Windows endpoint management</strong> via <strong>JAMF & Intune</strong>; device deployment and IT asset inventory</li>
               <li><strong>Atlassian Org-Admin</strong> — JSM projects, workflows, SLAs, automations, Looker reports</li>
               <li>Slack Workspace Owner; office network management via <strong>Fortinet</strong></li>
               <li>HelpDesk support to 500+ users in multiple languages across global offices</li>
@@ -538,7 +613,7 @@
               <li>Led ITSM project and monitored ticket queues via <strong>Atlassian Jira</strong></li>
               <li>HelpDesk support to 500+ users in multiple languages</li>
               <li>Managed onboardings & offboardings globally, including user training</li>
-              <li>Deployed and supported MacOS and Windows laptops via <strong>JumpCloud</strong></li>
+              <li>Deployed and supported macOS and Windows laptops via <strong>JumpCloud</strong></li>
               <li>IT procurement and asset management (<strong>Airtable</strong>); office network management (<strong>Fortinet</strong>)</li>
               <li>Slack Workspace Owner — user & channel management, app integrations</li>
             </ul>
@@ -552,10 +627,10 @@
             <div class="job-company">Paack <span class="sep">·</span> <span class="loc">Barcelona, Spain</span></div>
             <ul>
               <li>Ticket queue monitoring with defined SLAs and priorities (<strong>Jira ITSM</strong>)</li>
-              <li>IAM management using <strong>Microsoft Azure AD & Google Workspace</strong></li>
+              <li><strong>IAM management</strong> using <strong>Microsoft Entra ID (Azure AD)</strong> & Google Workspace</li>
               <li>Onboardings & offboardings across Europe, including asset logistics</li>
               <li>HelpDesk support to 400+ multilingual users</li>
-              <li>Laptop deployment via <strong>Microsoft Intune</strong> and <strong>JAMF</strong></li>
+              <li><strong>macOS and Windows</strong> laptop deployment via <strong>Microsoft Intune</strong> and <strong>JAMF</strong></li>
               <li>Slack administrator; IT asset management and maintenance</li>
               <li>Led <strong>Ricoh Printer Fleet project</strong> — robust secure printing across all warehouses</li>
               <li>Internal documentation management & improvement (<strong>Confluence</strong>)</li>
@@ -606,24 +681,31 @@
           <div class="section-label">Core Skills</div>
           <div class="tags">
             <span class="tag-item">Okta</span>
-            <span class="tag-item">Google Workspace</span>
-            <span class="tag-item">Workato</span>
+            <span class="tag-item">Microsoft Entra ID</span>
+            <span class="tag-item">JAMF</span>
+            <span class="tag-item">Kandji</span>
+            <span class="tag-item">macOS MDM</span>
+            <span class="tag-item">Kolide</span>
+            <span class="tag-item">Zero Trust</span>
+            <span class="tag-item">SSO</span>
+            <span class="tag-item">SCIM Provisioning</span>
+            <span class="tag-item">IAM</span>
+            <span class="tag-item">PIM / Least-Privilege</span>
+            <span class="tag-item">Access Governance</span>
             <span class="tag-item">Okta Workflows</span>
+            <span class="tag-item">Workato</span>
+            <span class="tag-item">Python</span>
+            <span class="tag-item">Google Apps Script</span>
+            <span class="tag-item">Intune</span>
+            <span class="tag-item">Google Workspace</span>
             <span class="tag-item">FreshService</span>
             <span class="tag-item">Jira ITSM</span>
-            <span class="tag-item">JAMF</span>
-            <span class="tag-item">Intune</span>
-            <span class="tag-item">Azure AD</span>
-            <span class="tag-item">Slack Admin</span>
-            <span class="tag-item">Google Apps Script</span>
             <span class="tag-item">Snipe-IT</span>
-            <span class="tag-item">Kolide</span>
             <span class="tag-item">1Password</span>
-            <span class="tag-item">Confluence</span>
             <span class="tag-item">Terraform</span>
+            <span class="tag-item">Slack Admin</span>
+            <span class="tag-item">Confluence</span>
             <span class="tag-item">Fortinet</span>
-            <span class="tag-item">IAM</span>
-            <span class="tag-item">MDM</span>
             <span class="tag-item">REST APIs</span>
           </div>
         </section>
@@ -675,4 +757,52 @@
             <span class="lang-level">High</span>
           </div>
           <div class="lang-item">
-            <span class="lang-name">French</span
+            <span class="lang-name">French</span>
+            <span class="lang-level">Basic</span>
+          </div>
+        </section>
+
+      </aside>
+    </div>
+
+  </div>
+
+  <script>
+    function downloadCV() {
+      var btn = document.getElementById('dlbtn');
+      var label = btn.querySelector('.dl-label');
+      var target = document.querySelector('.wrapper');
+      var prev = label.textContent;
+
+      if (typeof html2pdf === 'undefined') {
+        window.print();
+        return;
+      }
+
+      document.body.classList.add('pdf-export');
+      btn.disabled = true;
+      label.textContent = 'Generating...';
+
+      var opt = {
+        margin: [8, 8, 8, 8],
+        filename: 'Franco_Zinni_CV.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, backgroundColor: '#ffffff', useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['css', 'legacy'] }
+      };
+
+      function restore() {
+        document.body.classList.remove('pdf-export');
+        btn.disabled = false;
+        label.textContent = prev;
+      }
+
+      html2pdf().set(opt).from(target).save().then(restore).catch(function () {
+        restore();
+        window.print();
+      });
+    }
+  </script>
+</body>
+</html>
